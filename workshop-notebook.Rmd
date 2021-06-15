@@ -37,7 +37,7 @@ Having our data in "tidy" format is good, but it doesn't immediately give us any
 * Do the average weights of penguins differ by species? By island? By year?
 * How do flipper lengths of males vs. females compare? 
 
-Let's tackle the flipper length question first. Using the Split-Apply-Combine strategy, we'll employ the dplyr groupby() and summarize() functions. The "groupby()" functions handles the "split" portion, as we can split our data and group by the 'sex' column. With "summarize()", we can "apply" an operation on this splitting (in this case, calculate the mean for flipper_length), and then combine it back together to see the results:
+Let's tackle the flipper length question first. Using the Split-Apply-Combine strategy, we'll employ the dplyr group_by() and summarize() functions. The "group_by()" functions handles the "split" portion, as we can split our data and group by the 'sex' column. With "summarize()", we can "apply" an operation on this splitting (in this case, calculate the mean for flipper_length), and then combine it back together to see the results:
 
 
 ```{r}
@@ -149,12 +149,18 @@ gapminder
 (This dataset includes health and income outcomes for 184 countries from 1960 to 2016.)
 
 
-Examine one of the datasets (you can just print it in a code block, or use the head() function on one). What kinds of questions might you ask? How could group by/summarize help you answer them (or at least show patterns, etc.)
-
-
+Examine one of the datasets (you can just print it in a code block, or use the head() function on one). What kinds of questions might you ask? How could group by/summarize help you answer them (or at least show patterns, etc.)? Try out some possibilities below:
 
 
 ```{r}
+
+
+
+
+
+
+
+
 
 
 ```
