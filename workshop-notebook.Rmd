@@ -1,19 +1,123 @@
 ---
-title: "R Notebook"
+title: "Group By / Summarize Palooza"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+## Group By / Summarize Palooza
+
+
+For today's coding club, we're going to do a number of examples using R's "Group By / Summarize" technique on datasets. R guru Hadley Wickham has coined this approach the "Split-Apply-Combine" strategy (https://www.jstatsoft.org/article/view/v040i01), in which you:
+
+* Split - break a big problem into manageable pieces
+* Apply - operate on each piece individually
+* Combine - put all the pieces back together
+
+
+Let's start by loading the tidyverse, and looking at our penguins dataset again:
 
 ```{r}
-plot(cars)
+library(tidyverse)
+library(palmerpenguins)
+
+penguins
+
+
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+As a refresher, the penguins dataset is in "tidy" format, in which:
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+* each column is a variable
+* each row is an observation
+* each cell is a single value
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+Having our data in "tidy" format is good, but it doesn't immediately give us any real insight on the data. Looking at our dataset, there are a number of different questions we could ask / investigate:
 
+* Do the average weights of penguins differ by species? By island? By year?
+* How do flipper lengths of males vs. females compare? 
+
+Let's tackle the flipper length question first. Using the Split-Apply-Combine strategy, we'll employ the dplyr groupby() and summarize() functions. The "groupby()" functions handles the "split" portion, as we can split our data and group by the 'sex' column. With "summarize()", we can "apply" an operation on this splitting (in this case, calculate the mean for flipper_length), and then combine it back together to see the results:
+
+
+```{r}
+
+
+flippers<-penguins %>% group_by(sex) %>% summarise(avg_flipper_length=mean(flipper_length_mm))
+
+flippers
+
+
+```
+
+With summarise, you can create multiple operations on your data if you like:
+
+```{r}
+
+flippers2<-penguins %>% group_by(sex) %>% summarise(
+  avg=mean(flipper_length_mm),
+  standard_dev=sd(flipper_length_mm), 
+  minimum=min(flipper_length_mm), 
+  maximum=max(flipper_length_mm)
+  )
+
+flippers2
+
+
+```
+
+YOUR TURN
+
+Calculate the average mass of all penguins by year:
+
+```{r}
+
+
+
+```
+
+
+What is the differences in mean values bill depth by species? How about by island?
+
+```{r}
+
+
+
+```
+
+
+What is the difference in bill depth between males and females of just Adelie penguins?
+(Hint: you might consider using the filter() function first)
+
+```{r}
+
+
+
+
+
+```
+
+
+We can also use group_by() on multiple variables:
+
+```{r}
+
+bills<-penguins %>% group_by(species, sex) %>% summarize(avg=mean(bill_length_mm))
+
+bills
+
+
+```
+
+
+
+
+YOUR TURN:
+
+Calculate the average weight for each species, grouped by year:
+
+```{r}
+
+penguins %>% group_by(species, year) %>% summarise(avg=mean(body_mass_g))
+
+
+```
